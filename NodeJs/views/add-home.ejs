@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/styles/output.css" />
+  </head>
+  <body>
+    <div
+      class="flex flex-col items-center justify-center min-h-screen bg-gray-100"
+    >
+      <h1 class="text-4xl font-bold text-orange-600 mb-4">Add a New House</h1>
+      <form action="/add-home" method="post" class="flex flex-col items-center">
+        <input
+          type="text"
+          name="houseName"
+          placeholder="Name of House"
+          class="px-4 py-2 border border-gray-300 rounded mb-4"
+        />
+        <input
+          type="text"
+          name="price"
+          placeholder="price of House"
+          class="px-4 py-2 border border-gray-300 rounded mb-4"
+        />
+        <input
+          type="text"
+          name="location"
+          placeholder="location of House"
+          class="px-4 py-2 border border-gray-300 rounded mb-4"
+        />
+        <input
+          type="text"
+          name="rating"
+          placeholder="rating of House"
+          class="px-4 py-2 border border-gray-300 rounded mb-4"
+        />
+        <input
+          type="text"
+          name="photoUrl"
+          placeholder="photoUrl of House"
+          class="px-4 py-2 border border-gray-300 rounded mb-4"
+        />
+
+        <input
+          type="submit"
+          value="Add House"
+          class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition duration-300"
+        />
+      </form>
+    </div>
+  </body>
+</html>
