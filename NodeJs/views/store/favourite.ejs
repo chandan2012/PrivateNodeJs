@@ -7,10 +7,10 @@
       <div
         class="min-h-screen bg-gray-100"
       >
-        <h1 class="text-4xl font-bold text-orange-600 py-4 text-center mb-4">All the favorites homes</h1>      
+        <h1 class="text-4xl font-bold text-orange-600 py-4 text-center mb-4">All the favourites of Airbnb</h1>      
         <div class="max-w-6xl mx-auto">
           <div class="flex flex-wrap gap-8 justify-center">
-            <% favouriteHomes.forEach(home => { %>
+            <% homes.forEach(home => { %>
               <div class="flex-shrink-0 w-full md:w-96 bg-white rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden">
                 <img src="<%= home.photoUrl %>" alt="<%= home.houseName %>" class="w-full h-64 object-cover">
                 <div class="p-6">

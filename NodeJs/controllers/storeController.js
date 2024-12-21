@@ -19,25 +19,25 @@ exports.getHomes = (req, res, next) => {
   });
 };
 
-exports.getFavourites = (req, res, next) => {
-  Favourite.favouriteHomes(favouriteIds => {
-    Home.fetchHomes(registeredHomes => {
-      const favouriteHomes = registeredHomes.filter(home => favouriteIds.includes(home.id));
-      res.render("store/fav", { favouriteHomes : favouriteHomes, title: "Favourites" });
-    });
-  })
+exports.getFavouriteHomes = (req, res, next) => {
+  Favourite.fetchHomes((registeredID) => {    
+    Home.fetchHomes((registeredHomes) => {
+      const favouriteHomes = registeredHomes.filter(home => registeredID.includes(home.id));
+      res.render("store/favourite", { homes: favouriteHomes, title: "Favourites" });
+    });   
+  });
 };
 
-exports.postAddFavourites = (req, res, next) => {
+
+exports.postFavouriteHomes = (req, res, next) => {
   const homeId = req.body.id;
-  console.log(homeId);
-  Favourite.addToFavourites(homeId, error => {
-    if (error) {
-      console.log("Error while adding to favourites", error);
+  Favourite.addToFavourite(homeId, (err) => {
+    if(err){
+      console.log("Error while adding to favourites", err);
     }
-    res.redirect("/favorite-homes");
-  })
-};
+    res.redirect("/favourite");
+  });
+}
 
 
 exports.getHomeDetails = (req, res, next) => {
@@ -51,8 +51,5 @@ exports.getHomeDetails = (req, res, next) => {
       home: home,
     });
   }); 
-
-  
- 
 };
 
