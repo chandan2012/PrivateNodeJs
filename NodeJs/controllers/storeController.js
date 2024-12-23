@@ -39,7 +39,6 @@ exports.postFavouriteHomes = (req, res, next) => {
   });
 }
 
-
 exports.getHomeDetails = (req, res, next) => {
   const hostID = req.params.id;
   Home.findById(hostID, (home) => {

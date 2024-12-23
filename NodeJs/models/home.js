@@ -12,10 +12,15 @@ module.exports = class Home {
     this.photoUrl = photoUrl;
   }
   save(callback) {
-    this.id = Math.random().toString();
     Home.fetchHomes(registeredHomes => {
+      if(this.id){
+        registeredHomes = registeredHomes.map(home => home.id !== this.id ? home : this);
+      }
+      else{
+        this.id = Math.random().toString();
         registeredHomes.push(this);
-        fs.writeFile(homeFilePath, JSON.stringify(registeredHomes), callback)
+      }
+      fs.writeFile(homeFilePath, JSON.stringify(registeredHomes), callback)
     })
   }
   static fetchHomes(callback) {
