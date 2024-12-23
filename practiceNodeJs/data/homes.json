@@ -1,0 +1,26 @@
+[
+  {
+    "id": "1",
+    "houseName": "Villa",
+    "price": "1699",
+    "location": "Kolkata",
+    "rating": "4.9",
+    "imageUrl": "/images/house1.png"
+  },
+  {
+    "houseName": "Santi Villa",
+    "price": "1899",
+    "location": "B-221/A/1 New Shantinagar ",
+    "rating": "4.9",
+    "imageUrl": "/images/house2.png",
+    "id": "0.6510721559129242"
+  },
+  {
+    "houseName": "Nice Villa",
+    "price": "1899",
+    "location": "B-221/A/1 New Shantinagar ",
+    "rating": "4.9",
+    "imageUrl": "/images/house2.png",
+    "id": "0.10120039928809943"
+  }
+]

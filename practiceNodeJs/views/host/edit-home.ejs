@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('../partials/head') %>
+  <body>
+    <%- include('../partials/nav') %>
+    <div
+      class="flex flex-col items-center justify-center min-h-screen bg-gray-100"
+    >
+      <h1 class="text-4xl font-bold text-orange-600 mb-4">Add a New House</h1>
+      <form action="/host-homes" method="post" class="flex flex-col items-center">
+        <input
+          type="text"
+          name="houseName"
+          value=""
+          placeholder="Name of House"
+          class="px-4 py-2 border border-gray-300 rounded mb-4"
+        />
+        <input
+          type="text"
+          name="price"
+          value=""
+          placeholder="Price of House"
+          class="px-4 py-2 border border-gray-300 rounded mb-4"
+        />
+        <input
+          type="text"
+          name="location"
+          value=""
+          placeholder="Location of House"
+          class="px-4 py-2 border border-gray-300 rounded mb-4"
+        />
+        <input
+          type="text"
+          name="rating"
+          value=""
+          placeholder="Rating of House"
+          class="px-4 py-2 border border-gray-300 rounded mb-4"
+        />
+        <input
+          type="text"
+          name="photoUrl"
+          value=""
+          placeholder="Enter photo URL"
+          class="px-4 py-2 border border-gray-300 rounded mb-4"
+        />
+
+        <input
+          type="submit"
+          value="Add House"
+          class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition duration-300"
+        />
+      </form>
+    </div>
+  </body>
+</html>
