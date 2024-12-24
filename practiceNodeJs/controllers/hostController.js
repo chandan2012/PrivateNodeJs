@@ -5,8 +5,8 @@ exports.getHomes = (req, res) => {
 };
 
 exports.postHome = (req, res, next) => {
-  const { houseName, price, location, rating, photoUrl } = req.body;
-  const home = new Home(houseName, price, location, rating, photoUrl);
+  const { houseName, price, location, rating, imageUrl } = req.body;
+  const home = new Home(houseName, price, location, rating, imageUrl);
   home.save((err) => {
     if (err) {
       res.redirect("/");
