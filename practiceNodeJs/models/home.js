@@ -11,18 +11,26 @@ module.exports = class Home {
     this.rating = rating;
     this.imageUrl = imageUrl;
   }
+
   save(callback) {
-    this.id = Math.random().toString();
-    Home.fetchAllHomes((homes) => {
-      homes.push(this);
-      fs.writeFile(homeData, JSON.stringify(homes), callback);
-    });
+    Home.fetchAllHomes(registeredHomes => {
+      if(this.id){
+        registeredHomes = registeredHomes.map(home => home.id !== this.id ? home : this);
+      }
+      else{
+        this.id = Math.random().toString();
+        registeredHomes.push(this);
+      }
+      fs.writeFile(homeData, JSON.stringify(registeredHomes), callback)
+    })
   }
+
   static fetchAllHomes(callback) {
     fs.readFile(homeData, (err, data) => {
       err ? callback([]) : callback(JSON.parse(data));
     });
   }
+
   static findById(id, callback) {
     Home.fetchAllHomes((homes) => {
       const home = homes.find((home) => home.id === id);

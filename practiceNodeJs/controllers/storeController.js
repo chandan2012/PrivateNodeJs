@@ -5,11 +5,10 @@ exports.getHomes = (req, res) => {
   Home.fetchAllHomes((homes) => {
     res.render("user/index", {
       title: "Home Page",
-      homeObj: homes, // Pass the homes array to the template
+      homeObj: homes, 
     });
   });
 };
-
 
 exports.getFavouriteHomes = (req, res, next) => {
   Favourite.fetchHomes((registeredID) => {    
@@ -20,7 +19,6 @@ exports.getFavouriteHomes = (req, res, next) => {
   });
 };
 
-
 exports.postFavouriteHomes = (req, res, next) => {
   const homeId = req.body.id;
   Favourite.addToFavourite(homeId, (err) => {
@@ -30,7 +28,6 @@ exports.postFavouriteHomes = (req, res, next) => {
     res.redirect("/favourite");
   });
 }
-  
 
 exports.getHomeDetails = (req, res, next) => {
   const hostID = req.params.id;

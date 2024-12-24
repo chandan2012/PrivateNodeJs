@@ -6,46 +6,49 @@
     <div
       class="flex flex-col items-center justify-center min-h-screen bg-gray-100"
     >
-      <h1 class="text-4xl font-bold text-orange-600 mb-4">Add a New House</h1>
-      <form action="/host-homes" method="post" class="flex flex-col items-center">
+      <h1 class="text-4xl font-bold text-orange-600 mb-4">
+        <%- editing ? "Edit" : "Add" %> a New House</h1>
+      <form action="<%= editing ? '/edit-home' : '/host-homes' %>" method="post" class="flex flex-col items-center">
+        <input type="hidden" name="id" value="<%= editing ? homeObj.id : '' %>">
         <input
           type="text"
           name="houseName"
-          value=""
+          value="<%= editing ? homeObj.houseName : '' %>"
           placeholder="Name of House"
           class="px-4 py-2 border border-gray-300 rounded mb-4"
         />
         <input
           type="text"
           name="price"
-          value=""
+          value="<%= editing ? homeObj.price : '' %>"
           placeholder="Price of House"
           class="px-4 py-2 border border-gray-300 rounded mb-4"
         />
         <input
           type="text"
           name="location"
-          value=""
+          value="<%= editing ? homeObj.location : '' %>"
           placeholder="Location of House"
           class="px-4 py-2 border border-gray-300 rounded mb-4"
         />
         <input
           type="text"
           name="rating"
-          value=""
+          value="<%= editing ? homeObj.rating : '' %>"
           placeholder="Rating of House"
           class="px-4 py-2 border border-gray-300 rounded mb-4"
         />
         <input
           type="text"
-          name="photoUrl"
-          value=""
+          name="imageUrl"
+          value="<%= editing ? homeObj.imageUrl : '' %>"
           placeholder="Enter photo URL"
           class="px-4 py-2 border border-gray-300 rounded mb-4"
         />
 
         <input
           type="submit"
+          value="<%= editing ? 'Update Home' : 'Add House' %>"
           value="Add House"
           class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition duration-300"
         />
