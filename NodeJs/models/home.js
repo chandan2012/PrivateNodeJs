@@ -1,44 +1,34 @@
-const fs = require("fs");
-const path = require("path");
-const routeDir = require("./../util/path-util");
-const homeFilePath = path.join(routeDir, "data", "homes.json");
+const airbnb = require("../util/database-util");
 
 module.exports = class Home {
-  constructor(houseName, price, location, rating, photoUrl) {
+  constructor(houseName, price, location, rating, photoUrl, description) {
     this.houseName = houseName;
     this.price = price;
     this.location = location;
     this.rating = rating;
     this.photoUrl = photoUrl;
+    this.description = description;
   }
-  save(callback) {
-    Home.fetchHomes((registeredHomes) => {
-      if (this.id) {
-        registeredHomes = registeredHomes.map((home) =>
-          home.id !== this.id ? home : this
-        );
-      } else {
-        this.id = Math.random().toString();
-        registeredHomes.push(this);
-      }
-      fs.writeFile(homeFilePath, JSON.stringify(registeredHomes), callback);
-    });
+  save() {
+    return airbnb.execute(
+      `INSERT INTO homes (houseName, price, location, rating, photoUrl, description) VALUES (?,?,?,?,?,?)`,
+      [
+        this.houseName,
+        this.price,
+        this.location,
+        this.rating,
+        this.photoUrl,
+        this.description,
+      ]
+    );
   }
-  static fetchHomes(callback) {
-    fs.readFile(homeFilePath, (err, data) => {
-      err ? callback([]) : callback(JSON.parse(data));
-    });
+  static fetchHomes() {
+    return airbnb.execute("SELECT * FROM homes");
   }
-  static findById(id, callback) {
-    Home.fetchHomes((homes) => {
-      const home = homes.find((home) => home.id === id);
-      callback(home);
-    });
+  static findById(id) {
+    return airbnb.execute("SELECT * FROM homes WHERE id = ?", [id]);
   }
-  static deleteHome(id, callback) {
-    Home.fetchHomes((homes) => {
-      const updatedHomes = homes.filter((home) => home.id !== id);
-      fs.writeFile(homeFilePath, JSON.stringify(updatedHomes), callback);
-    });
+  static deleteHome(id) {
+    return airbnb.execute("DELETE FROM homes WHERE id = ?", [id]);
   }
 };

@@ -34,7 +34,7 @@ exports.postAddHome = (req, res, next) => {
   );
   home
     .save()
-    .then(([rows]) => {
+    .then(() => {
       res.render("host/home-added", { title: "Home Added" });
     })
     .catch((err) => console.log(err));
