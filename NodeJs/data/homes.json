@@ -1,1 +1,10 @@
-[{"houseName":"Villa","price":"1899","location":"B-221/A/1 New Shantinagar ","rating":"4.9","photoUrl":"/images/house3.png","id":"0.6444013328000957"}]
+[
+  {
+    "houseName": "Villa",
+    "price": "1899",
+    "location": "B-221/A/1 New Shantinagar ",
+    "rating": "4.9",
+    "photoUrl": "/images/house3.png",
+    "id": "0.6444013328000957"
+  }
+]
