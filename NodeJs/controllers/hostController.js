@@ -1,21 +1,25 @@
 const Home = require("../models/home");
 
-exports.getHome = (req, res, next) => { 
-  res.render("host/edit-home", { title: "Add Home",editing: false, });
+exports.getHome = (req, res, next) => {
+  res.render("host/edit-home", { title: "Add Home", editing: false });
 };
 
 exports.getEditHomes = (req, res, next) => {
   const homeId = req.params.id;
   const editing = req.query.editing === "true";
-  if(!editing) {  
+  if (!editing) {
     res.redirect("/host-homes");
   }
   Home.findById(homeId, (home) => {
-    if(!home) {
+    if (!home) {
       res.redirect("host/host-homes");
     }
-    res.render("host/edit-home", { editing: editing, home: home, title: "Edit Home" });
-  });  
+    res.render("host/edit-home", {
+      editing: editing,
+      home: home,
+      title: "Edit Home",
+    });
+  });
 };
 
 exports.postAddHome = (req, res, next) => {
@@ -29,7 +33,7 @@ exports.postAddHome = (req, res, next) => {
 };
 
 exports.postEditHome = (req, res, next) => {
-  const {id, houseName, price, location, rating, photoUrl } = req.body;
+  const { id, houseName, price, location, rating, photoUrl } = req.body;
   const home = new Home(houseName, price, location, rating, photoUrl);
   home.id = id;
   home.save((err) => {
@@ -41,12 +45,23 @@ exports.postEditHome = (req, res, next) => {
   });
 };
 
+exports.postDeleteHome = (req, res, next) => {
+  const homeId = req.params.id;
+  console.log(homeId);
+  Home.deleteHome(homeId, (err) => {
+    if (err) {
+      console.log("Error while deleting home", err);
+    } else {
+      res.redirect("/host-homes");
+    }
+  });
+};
 
 exports.getHostHomes = (req, res, next) => {
   Home.fetchHomes((registeredHomes) => {
     res.render("host/host-homes", {
       registeredHomes: registeredHomes,
-      title: "Host Homes",      
+      title: "Host Homes",
     });
   });
-}
+};
