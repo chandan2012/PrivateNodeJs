@@ -1,18 +1,1 @@
-[
-  {
-    "houseName": "Santi Villa",
-    "price": "1599",
-    "location": "Howrah",
-    "rating": "4.8",
-    "photoUrl": "/images/house2.png",
-    "id": "0.11220473986740975"
-  },
-  {
-    "houseName": "VillS",
-    "price": "1000",
-    "location": "B-221/A/1 New Shantinagar ",
-    "rating": "4.9",
-    "photoUrl": "/images/house3.png",
-    "id": "0.05881349619190557"
-  }
-]
+[{"houseName":"Villa","price":"1899","location":"B-221/A/1 New Shantinagar ","rating":"4.9","photoUrl":"/images/house3.png","id":"0.6444013328000957"}]

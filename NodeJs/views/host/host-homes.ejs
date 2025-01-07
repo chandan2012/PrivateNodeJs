@@ -12,6 +12,7 @@
           <div class="flex flex-wrap gap-8 justify-center">
             <% registeredHomes.forEach(home => { %>
               <div class="flex-shrink-0 w-full md:w-96 bg-white rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden">
+              
                 <img src="<%= home.photoUrl %>" alt="<%= home.houseName %>" class="w-full h-64 object-cover">
                 <div class="p-6">
                   <h2 class="text-2xl font-bold text-gray-900 mb-2"><%= home.houseName %></h2>
@@ -34,6 +35,14 @@
                       <button class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-colors">Delete</button>
                     </form>
                     
+                    <form action="/delete-home" method="POST">
+                      <input name="id" value="<%= home.id %>" hidden>
+                      <button type="submit" 
+                              class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-colors">
+                          Delete
+                      </button>
+                  </form>
+                   
                     <a href="/edit-home/<%= home.houseName %>/<%= home.id %>?editing=true"
                     class="bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-600 transition-colors">
                       Edit
