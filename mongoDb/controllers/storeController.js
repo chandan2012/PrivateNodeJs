@@ -2,7 +2,7 @@ const Favourite = require("../models/favorite");
 const Home = require("../models/home");
 
 exports.getIndex = (req, res, next) => {
-  Home.fetchHomes().then(([registeredHomes]) => {
+  Home.fetchHomes().then(registeredHomes   => {
     res.render("store/index", {
       registeredHomes: registeredHomes,
       title: "Home",
@@ -11,7 +11,7 @@ exports.getIndex = (req, res, next) => {
 };
 
 exports.getHomes = (req, res, next) => {
-  Home.fetchHomes().then(([registeredHomes]) => {
+  Home.fetchHomes().then(registeredHomes => {
     res.render("store/homes", {
       registeredHomes: registeredHomes,
       title: "Homes",
@@ -21,7 +21,7 @@ exports.getHomes = (req, res, next) => {
 
 exports.getFavouriteHomes = (req, res, next) => {
   Favourite.fetchHomes((registeredID) => {
-    Home.fetchHomes().then(([registeredHomes]) => {
+    Home.fetchHomes().then(registeredHomes => {
       const favouriteHomes = registeredHomes.filter((home) =>
         registeredID.includes(home.id)
       );
