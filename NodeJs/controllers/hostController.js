@@ -35,7 +35,7 @@ exports.postAddHome = (req, res, next) => {
   home
     .save()
     .then(([rows]) => {
-      res.render("host/home-added", { title: "Home Added" });
+      res.redirect("/host-homes");
     })
     .catch((err) => console.log(err));
 };
@@ -55,7 +55,7 @@ exports.postEditHome = (req, res, next) => {
   home
     .save()
     .then(() => {
-      res.render("host-homes", { title: "Home Added" });
+      res.redirect("host-homes");
     })
     .catch((err) => console.log(err));
 };
