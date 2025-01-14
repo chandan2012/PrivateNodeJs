@@ -9,7 +9,7 @@
       <h1 class="text-4xl font-bold text-orange-600 mb-4">
         <%- editing ? 'Edit' : 'Add' %> a New House</h1>        
           <form action="/<%= editing ? "edit-home" : "add-home" %>" method="post" class="flex flex-col items-center">
-            <input type="hidden" name="id" value="<%= editing ? home.id : '' %>">
+            <input type="hidden" name="id" value="<%= editing ? home._id : '' %>">
           <input
             type="text"
             name="houseName"
@@ -45,7 +45,9 @@
             placeholder="Enter photo URL"
             class="px-4 py-2 border border-gray-300 rounded mb-4"
           />
-        <textarea placeholder="Enter description" class="px-4 py-2 border border-gray-300 rounded mb-4" name="description" cols="22" rows="5" id=""></textarea>
+        <textarea  placeholder="Enter description" class="px-4 py-2 border border-gray-300 rounded mb-4" name="description" cols="22" rows="5" id="">
+          <%= editing ? home.description : ''  %>
+        </textarea>
           <input
             type="submit"
             value="<%= editing ? 'Update House' : 'Add House' %>"
