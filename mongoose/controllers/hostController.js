@@ -24,14 +24,14 @@ exports.getEditHomes = (req, res, next) => {
 exports.postAddHome = (req, res, next) => {
   const { houseName, price, location, rating, photoUrl, description } =
     req.body;
-  const home = new Home(
+  const home = new Home({
     houseName,
     price,
     location,
     rating,
     photoUrl,
-    description
-  );
+    description,
+  });
   home
     .save()
     .then(() => {
@@ -43,28 +43,27 @@ exports.postAddHome = (req, res, next) => {
 exports.postEditHome = (req, res, next) => {
   const { houseName, price, location, rating, photoUrl, description, id } =
     req.body;
-  const home = new Home(
-    houseName,
-    price,
-    location,
-    rating,
-    photoUrl,
-    description,
-    id
-  );
-  home
-    .save()
-    .then(() => {
-      res.redirect("/host-homes");
+  Home.findById(id)
+    .then((home) => {
+      if (!home) return res.redirect("/host-homes");
+      home.houseName = houseName;
+      home.price = price;
+      home.location = location;
+      home.rating = rating;
+      home.photoUrl = photoUrl;
+      home.description = description;
+      return home.save();
     })
-    .catch((err) => console.log(err));
+    .finally(() => {
+      res.redirect("/host-homes");
+    });
 };
 
 exports.postDeleteHome = (req, res, next) => {
   const homeId = req.params.id;
-  Home.deleteHome(homeId)
+  Home.deleteOne({ _id: homeId })
     .then(() => {
-      Favourite.deleteFromFavourite(homeId).then(() => {
+      Favourite.deleteOne({ id: homeId }).then(() => {
         res.redirect("/host-homes");
       });
     })
@@ -72,7 +71,7 @@ exports.postDeleteHome = (req, res, next) => {
 };
 
 exports.getHostHomes = (req, res, next) => {
-  Home.fetchHomes().then((registeredHomes) => {
+  Home.find().then((registeredHomes) => {
     res.render("host/host-homes", {
       registeredHomes: registeredHomes,
       title: "Host Homes",
