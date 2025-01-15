@@ -44,8 +44,27 @@
             value="<%= editing ? home.photoUrl : '' %>"
             placeholder="Enter photo URL"
             class="px-4 py-2 border border-gray-300 rounded mb-4"
-          />
-        <textarea   value="<%= editing ? home.description : '' %>" placeholder="Enter description" class="px-4 py-2 border border-gray-300 rounded mb-4" name="description" cols="22" rows="5" id=""></textarea>
+          /><div>
+            <% if (editing) { %>
+              <textarea 
+                placeholder="Enter description" 
+                class="px-4 py-2 border border-gray-300 rounded mb-4" 
+                name="description" 
+                cols="22" 
+                rows="5">
+                <%= home.description %>
+              </textarea>
+            <% } else { %>
+              <textarea 
+              placeholder="Enter description" 
+              class="px-4 py-2 border border-gray-300 rounded mb-4" 
+              name="description" 
+              cols="22" 
+              rows="5">
+            </textarea>
+            <% } %>
+          </div>
+          
           <input
             type="submit"
             value="<%= editing ? 'Update House' : 'Add House' %>"
