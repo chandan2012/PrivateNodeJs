@@ -2,7 +2,11 @@ const Favourite = require("../models/favorite");
 const Home = require("../models/home");
 
 exports.getHome = (req, res, next) => {
-  res.render("host/edit-home", { title: "Add Home", editing: false });
+  res.render("host/edit-home", {
+    title: "Add Home",
+    editing: false,
+    isLoggedIn: req.session.isLoggedIn,
+  });
 };
 
 exports.getEditHomes = (req, res, next) => {
@@ -17,6 +21,7 @@ exports.getEditHomes = (req, res, next) => {
       editing: editing,
       home: home,
       title: "Edit Home",
+      isLoggedIn: req.session.isLoggedIn,
     });
   });
 };
@@ -61,13 +66,9 @@ exports.postEditHome = (req, res, next) => {
 
 exports.postDeleteHome = (req, res, next) => {
   const homeId = req.params.id;
-  Home.deleteOne({ _id: homeId })
-    .then(() => {
-      Favourite.deleteOne({ id: homeId }).then(() => {
-        res.redirect("/host-homes");
-      });
-    })
-    .catch((err) => console.log(err));
+  Home.findByIdAndDelete(homeId).then(() => {
+    res.redirect("/host-homes");
+  });
 };
 
 exports.getHostHomes = (req, res, next) => {
@@ -75,6 +76,7 @@ exports.getHostHomes = (req, res, next) => {
     res.render("host/host-homes", {
       registeredHomes: registeredHomes,
       title: "Host Homes",
+      isLoggedIn: req.session.isLoggedIn,
     });
   });
 };

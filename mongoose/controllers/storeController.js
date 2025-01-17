@@ -2,10 +2,12 @@ const Favourite = require("../models/favorite");
 const Home = require("../models/home");
 
 exports.getIndex = (req, res, next) => {
+  console.log(req.session);
   Home.find().then((registeredHomes) => {
     res.render("store/index", {
       registeredHomes: registeredHomes,
       title: "Home",
+      isLoggedIn: req.session.isLoggedIn,
     });
   });
 };
@@ -15,49 +17,41 @@ exports.getHomes = (req, res, next) => {
     res.render("store/homes", {
       registeredHomes: registeredHomes,
       title: "Homes",
+      isLoggedIn: req.session.isLoggedIn,
     });
   });
 };
 
 exports.getFavouriteHomes = (req, res, next) => {
-  Favourite.find().then((favIds) => {
-    Home.find().then((registeredHomes) => {
-      favIds = favIds.map((favId) => favId.id);
-      const favouriteHomes = registeredHomes.filter((home) =>
-        favIds.includes(home._id.toString())
-      );
+  Favourite.find()
+    .populate("homeId")
+    .then((favIds) => {
+      const favouriteHomes = favIds.map((favId) => favId.homeId);
       res.render("store/favourite", {
         homes: favouriteHomes,
         title: "Favourites",
+        isLoggedIn: req.session.isLoggedIn,
       });
     });
-  });
 };
 
 exports.postFavouriteHomes = (req, res, next) => {
   const homeId = req.body.id;
-
-  // Check if the home is already in favourites
-  Favourite.findOne({ id: homeId })
-    .then((exists) => {
-      if (!exists) {
-        // If not, create a new favourite entry
-        const fav = new Favourite({ id: homeId });
-        return fav.save();
-      }
-    })
-    .then(() => {
+  const fav = new Favourite({ homeId });
+  fav
+    .save()
+    .then((result) => {
       res.redirect("/favourite");
     })
     .catch((err) => {
-      console.error(err);
+      console.log(err);
       res.redirect("/favourite");
     });
 };
 
 exports.postDeleteFavouriteHomes = (req, res, next) => {
   const homeId = req.params.id;
-  Favourite.deleteOne({ id: homeId })
+  Favourite.findOneAndDelete({ homeId })
     .then(() => {
       res.redirect("/favourite");
     })
@@ -74,6 +68,7 @@ exports.getHomeDetails = (req, res, next) => {
     res.render("store/home-details", {
       title: "Home Details",
       home: homes,
+      isLoggedIn: req.session.isLoggedIn,
     });
   });
 };

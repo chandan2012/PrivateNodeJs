@@ -9,6 +9,7 @@
             class="text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium"
             >airbnb</a
           >
+          <% if(isLoggedIn) { %>
           <a
             href="/homes"
             class="text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium"
@@ -20,15 +21,29 @@
             >Favorite Homes</a
           >
           <a
-          href="/host-homes"
-          class="text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium"
-          >Host Homes</a
-        >
+            href="/host-homes"
+            class="text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium"
+            >Host Homes</a
+          >
           <a
             href="/add-home"
             class="text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium"
             >Add Home</a
           >
+          <form action="/logout" method="post">
+            <input
+              type="submit"
+              value="Logout"
+              class="text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium"
+            />
+          </form>
+          <% } else { %>
+          <a
+            href="/login"
+            class="text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium"
+            >Login</a
+          >
+          <% } %>
         </div>
       </div>
     </div>
