@@ -3,47 +3,61 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex justify-between items-center h-16">
         <!-- Desktop Menu -->
-        <div class="hidden md:flex space-x-4">
-          <a
-            href="/"
-            class="text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium"
-            >airbnb</a
-          >
-          <% if(isLoggedIn) { %>
-          <a
-            href="/homes"
-            class="text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium"
-            >Homes</a
-          >
-          <a
-            href="/favourite"
-            class="text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium"
-            >Favorite Homes</a
-          >
-          <a
-            href="/host-homes"
-            class="text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium"
-            >Host Homes</a
-          >
-          <a
-            href="/add-home"
-            class="text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium"
-            >Add Home</a
-          >
-          <form action="/logout" method="post">
-            <input
-              type="submit"
-              value="Logout"
+        <div
+          class="hidden md:flex space-x-4 w-full justify-between items-center"
+        >
+          <div>
+            <a
+              href="/"
               class="text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium"
-            />
-          </form>
-          <% } else { %>
-          <a
-            href="/login"
-            class="text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium"
-            >Login</a
-          >
-          <% } %>
+              >airbnb</a
+            >
+            <% if (isLoggedIn) { %> <% if (user.userType === 'user') { %>
+            <a
+              href="/homes"
+              class="text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium"
+              >Homes</a
+            >
+            <a
+              href="/favourite"
+              class="text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium"
+              >Favorite Homes</a
+            >
+            <% } else if (user.userType === 'admin') { %>
+            <a
+              href="/host-homes"
+              class="text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium"
+              >Host Homes</a
+            >
+            <a
+              href="/add-home"
+              class="text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium"
+              >Add Home</a
+            >
+            <% } %> <% } %>
+          </div>
+          <div class="block">
+            <% if (isLoggedIn) { %>
+            <form action="/logout" method="post">
+              <input
+                type="submit"
+                value="Logout"
+                class="cursor-pointer hover:text-white px-3 py-2 rounded-md text-sm font-medium bg-orange-600 text-white"
+              />
+            </form>
+            <% } else { %>
+            <a
+              href="/signup"
+              class="hover:text-white px-3 py-2 rounded-md text-sm font-medium bg-slate-600 text-white"
+              >Sign Up</a
+            >
+            <a
+              href="/login"
+              class="hover:text-white px-3 py-2 rounded-md text-sm font-medium bg-orange-600 text-white"
+              >Login</a
+            >
+            <% } %>
+          </div>
         </div>
       </div>
     </div>

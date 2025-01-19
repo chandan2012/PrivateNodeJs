@@ -1,4 +1,3 @@
-const Favourite = require("../models/favorite");
 const Home = require("../models/home");
 
 exports.getHome = (req, res, next) => {
@@ -6,6 +5,7 @@ exports.getHome = (req, res, next) => {
     title: "Add Home",
     editing: false,
     isLoggedIn: req.session.isLoggedIn,
+    user: req.session.user,
   });
 };
 
@@ -22,6 +22,7 @@ exports.getEditHomes = (req, res, next) => {
       home: home,
       title: "Edit Home",
       isLoggedIn: req.session.isLoggedIn,
+      user: req.session.user,
     });
   });
 };
@@ -36,6 +37,7 @@ exports.postAddHome = (req, res, next) => {
     rating,
     photoUrl,
     description,
+    hostId: req.session.user._id,
   });
   home
     .save()
@@ -72,11 +74,12 @@ exports.postDeleteHome = (req, res, next) => {
 };
 
 exports.getHostHomes = (req, res, next) => {
-  Home.find().then((registeredHomes) => {
+  Home.find({ hostId: req.session.user._id }).then((registeredHomes) => {
     res.render("host/host-homes", {
       registeredHomes: registeredHomes,
       title: "Host Homes",
       isLoggedIn: req.session.isLoggedIn,
+      user: req.session.user,
     });
   });
 };
