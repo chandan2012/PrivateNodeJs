@@ -20,7 +20,6 @@ exports.postLogin = async (req, res, next) => {
       throw new Error("User not found!");
     }
     const isMatch = await bcrypt.compare(password, user.password);
-    console.log(user, isMatch);
     if (!isMatch) {
       throw new Error("Password does not match");
     }
@@ -68,7 +67,7 @@ exports.postSignup = [
     .isIn(["user", "admin"])
     .withMessage("Please select a user type."),
 
-  (req, res, next) => {
+  async (req, res, next) => {
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
@@ -80,29 +79,23 @@ exports.postSignup = [
       });
     }
     const { username, email, password, userType } = req.body;
-    bcrypt.hash(password, 12).then((hashedPassword) => {
+    try {
+      const hashedPassword = await bcrypt.hash(password, 12);
       const user = new User({
         username,
         email,
         password: hashedPassword,
         userType,
       });
-      user
-        .save()
-        .then((result) => {
-          console.log(result);
-          res.redirect("/login");
-        })
-        .catch((error) => {
-          console.log(error);
-          return res.status(422).render("auth/signup", {
-            title: "Login",
-            isLoggedIn: false,
-            errorsMsg: [error],
-            oldInput: req.body,
-          });
-        });
-    });
+      await user.save();
+    } catch (err) {
+      return res.status(422).render("auth/signup", {
+        title: "Login",
+        isLoggedIn: false,
+        errorsMsg: [err],
+        oldInput: req.body,
+      });
+    }
   },
 ];
 
