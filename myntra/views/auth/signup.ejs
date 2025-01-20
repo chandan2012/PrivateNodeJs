@@ -1,0 +1,49 @@
+<%- include('../partials/nav') %>
+<main>
+<div class="flex justify-center items-center h-screen">
+  <div class="bg-white rounded-lg shadow-md p-6 w-1/2">
+    <h2 class="text-2xl font-bold mb-4">Sign Up</h2>
+    <form action="/signup" method="POST">
+
+      <% if (typeof errorsMsg !== 'undefined' && errorsMsg !== null) { %>
+        <% errorsMsg.forEach(function(error) { %>
+          <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+            <span class="block sm:inline"><%- error %></span>
+          </div>
+        <%})%>
+      <%}%>
+      <div class="mb-4">
+        <label for="name" class="block text-gray-700 text-sm font-bold mb-2">Name:</label>
+        <input type="text" id="name" name="name" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="John Doe">
+      </div>
+      <div class="mb-4">
+        <label for="email" class="block text-gray-700 text-sm font-bold mb-2">Email:</label>
+        <input type="email" id="email" name="email" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="john.doe@example.com">
+      </div>
+      <div class="mb-4">
+        <label for="password" class="block text-gray-700 text-sm font-bold mb-2">Password:</label>
+        <input type="password" id="password" name="password" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="********">
+      </div>
+      <div class="mb-4">
+        <label for="confirm-password" class="block text-gray-700 text-sm font-bold mb-2">Confirm Password:</label>
+        <input type="password" id="confirm-password" name="confirm_password" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="********">
+      </div>
+      <div class="mb-4">
+  <label class="block text-gray-700 text-sm font-bold mb-2">User Type:</label>
+  <div class="flex items-center mb-4 cursor-pointer">
+    <input type="radio" id="admin" name="userType" value="admin" class="mr-2 cursor-pointer">
+    <label for="admin" class="text-gray-700 text-sm font-bold cursor-pointer">Admin</label>
+    <input type="radio" id="user" name="userType" value="user" class="mx-2 cursor-pointer">
+    <label for="user" class="text-gray-700 text-sm font-bold cursor-pointer">User</label>
+  </div>
+  <div class="flex items-center mb-4">
+    
+  </div>
+</div>
+      <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Sign Up</button>
+    </form>
+  </div>
+</div>
+</main>
+</body>
+</html>
