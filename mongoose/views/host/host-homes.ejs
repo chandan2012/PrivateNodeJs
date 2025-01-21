@@ -33,9 +33,7 @@
                     <span class="text-2xl font-bold text-blue-600">Rs<%= home.price %></span>
                     <form action="/delete-home/<%= home._id %>" method="POST">
                       <button class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-colors">Delete</button>
-                    </form>                    
-                  
-                   
+                    </form>
                     <a href="/edit-home/<%= home.houseName %>/<%= home._id %>?editing=true"
                     class="bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-600 transition-colors">
                       Edit

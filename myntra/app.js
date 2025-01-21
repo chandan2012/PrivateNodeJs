@@ -5,8 +5,9 @@ const MongoDBStore = require("connect-mongodb-session")(session);
 const bodyParser = require("body-parser");
 const path = require("path");
 const routeDir = require("./util/path-util");
-const storeRouter = require("./routers/storeRouter");
 const authRouter = require("./routers/authRouter");
+const hostRouter = require("./routers/hostRouter");
+const storeRouter = require("./routers/storeRouter");
 const errorController = require("./controllers/errorController");
 
 const app = express();
@@ -40,7 +41,7 @@ app.use("/host", (req, res, next) => {
   }
   next();
 });
-// app.use(hostRouter);
+app.use(hostRouter);
 app.use(storeRouter);
 app.use(errorController.get404);
 

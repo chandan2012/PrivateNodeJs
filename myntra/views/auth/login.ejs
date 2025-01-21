@@ -4,13 +4,7 @@
   <div class="bg-white p-10 rounded shadow-md w-1/2">
     <h1 class="text-3xl font-bold mb-4">Login</h1>
     <form action="/login" method="post">
-        <% if (typeof errorsMsg !== 'undefined' && errorsMsg !== null) { %>
-            <% errorsMsg.forEach(function(error) { %>
-              <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
-                <span class="block sm:inline"><%- error %></span>
-              </div>
-            <%})%>
-          <%}%>
+      <%- include('../partials/errorMsg') %>
       <div class="mb-4">
         <label class="block text-gray-700 text-sm font-bold mb-2" for="email">Email</label>
         <input name="email" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="email" type="email" placeholder="your@email.com">
