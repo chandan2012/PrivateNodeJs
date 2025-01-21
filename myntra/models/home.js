@@ -7,6 +7,10 @@ const homeSchema = new mongoose.Schema({
     rating: { type: Number, required: true },
     photoUrl: { type: String, required: true },
     description:  String,
+    hostId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+    },
 });
 
 module.exports = mongoose.model("Home", homeSchema);

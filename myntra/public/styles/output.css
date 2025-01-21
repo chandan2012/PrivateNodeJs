@@ -610,6 +610,11 @@ video {
   margin-right: auto;
 }
 
+.my-3 {
+  margin-top: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
 .mb-16 {
   margin-bottom: 4rem;
 }

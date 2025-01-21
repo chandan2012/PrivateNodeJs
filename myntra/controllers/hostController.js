@@ -1,4 +1,5 @@
 const Home = require("../models/home");
+const User = require("../models/user");
 
 exports.getAddHome = (req, res, next) => {
     res.render("host/edit-home", {
@@ -19,6 +20,7 @@ exports.postAddHome = async (req, res, next) => {
       rating: rating,
       photoUrl: photoUrl, 
       description: description,
+      hostId: req.session.user._id
   });
   await home.save();
   res.redirect("/host-homes");
@@ -28,14 +30,13 @@ exports.postAddHome = async (req, res, next) => {
   }
 };
 
-exports.getHomes = async (req, res, next) => {
-  const homes = await Home.find();
+exports.getHostHomes = async (req, res, next) => {
+  const homes = await Home.find({ hostId: req.session.user._id });
   res.render("host/host-homes", {
     title: "Host Homes",
     Homes: homes,
     isLoggedIn: req.session.isLoggedIn,
     user: req.session.user,
-    editing: false
   });
 };
 
@@ -75,13 +76,41 @@ exports.postEditHome = async (req, res, next) => {
 
 exports.postDeleteHome = async (req, res, next) => {
   const homeId = req.params.homeId;
-
   try{
-    const home = await Home.findById(homeId);
-    await home.deleteOne();
+    const deletedHome = await Home.findByIdAndDelete(homeId);
+    if(!deletedHome) return res.status(404).send("Home not found");
+    await User.updateMany(
+      {favouriteHomes: homeId},
+      {$pull: {favouriteHomes:homeId}}
+    )    
     res.redirect("/host-homes");
   }
   catch(err){
     console.log(err);
   }
 };
+
+// exports.postDeleteHome = async (req, res, next) => {
+//   const homeId = req.params.id;
+
+//   try {
+//     // Delete the home
+//     const deletedHome = await Home.findByIdAndDelete(homeId);
+
+//     if (!deletedHome) {
+//       return res.status(404).send("Home not found");
+//     }
+
+//     // Remove the homeId from all users' favouriteHomes arrays
+//     const result = await User.updateMany(
+//       { favouriteHomes: homeId },
+//       { $pull: { favouriteHomes: homeId } }
+//     );
+
+//     console.log(`Updated users: ${JSON.stringify(result)}`);
+//     res.redirect("/host-homes");
+//   } catch (err) {
+//     console.error("Error deleting home or updating users:", err);
+//     res.status(500).send("Error processing request");
+//   }
+// };
