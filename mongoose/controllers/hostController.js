@@ -1,5 +1,6 @@
 const Home = require("../models/home");
 const User = require("../models/user");
+const { deleteFile } = require("../util/file");
 
 exports.getHome = (req, res, next) => {
   res.render("host/edit-home", {
@@ -29,8 +30,13 @@ exports.getEditHomes = (req, res, next) => {
 };
 
 exports.postAddHome = (req, res, next) => {
-  const { houseName, price, location, rating, photoUrl, description } =
-    req.body;
+  const { houseName, price, location, rating, description } = req.body;
+  console.log('Req body: ', req.body);
+  console.log('House Photo: ', req.file);
+  if (!req.file) {
+    return res.status(400).send('No valid image provided');
+  }
+  const photoUrl = "/" + req.file.path;
   const home = new Home({
     houseName,
     price,
@@ -58,7 +64,11 @@ exports.postEditHome = (req, res, next) => {
       home.price = price;
       home.location = location;
       home.rating = rating;
-      home.photoUrl = photoUrl;
+      if (req.file) {
+        deleteFile(home.photoUrl.substring(1));
+        home.photoUrl = "/" + req.file.path;;
+      }
+     
       home.description = description;
       return home.save();
     })
@@ -70,13 +80,16 @@ exports.postEditHome = (req, res, next) => {
 exports.postDeleteHome = async (req, res, next) => {
   const homeId = req.params.id;
   try {
-    const deletedHome = await Home.findByIdAndDelete(homeId);
-    if (!deletedHome) {
+    const home = await Home.findById(homeId);    
+    if (!home) {
       return res.status(404).send("Home not found");
     }  
-      await User.updateMany(
-      { favouriteHomes: homeId },
-      { $pull: { favouriteHomes: homeId } }
+    deleteFile(home.photoUrl.substring(1));
+
+    await Home.findByIdAndDelete(homeId);
+    await User.updateMany(
+    { favouriteHomes: homeId },
+    { $pull: { favouriteHomes: homeId } }
     );
     res.redirect("/host-homes");
   } catch (err) {
@@ -84,8 +97,6 @@ exports.postDeleteHome = async (req, res, next) => {
     res.status(500).send("Error processing request");
   }
 };
-
-
 
 exports.getHostHomes = (req, res, next) => {
   Home.find({ hostId: req.session.user._id }).then((registeredHomes) => {

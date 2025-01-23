@@ -2,8 +2,11 @@ const express = require("express");
 const mongoose = require("mongoose");
 const session = require("express-session");
 const MongoDBStore = require("connect-mongodb-session")(session);
+const multer  = require('multer')
 const bodyParser = require("body-parser");
 const path = require("path");
+
+
 const routeDir = require("./util/path-util");
 const storeRouter = require("./routers/storeRouter");
 const errorController = require("./controllers/errorController");
@@ -20,11 +23,28 @@ const store = new MongoDBStore({
   collection: "sessions",
 });
 
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'uploads/');
+  },
+  filename: (req, file, cb) => {
+    const sanitizedFileName = new Date().toISOString().replace(/:/g, '-') + '-' + file.originalname;
+    cb(null, sanitizedFileName);
+  },
+});
+const fileFilter = (req, file, cb) => {  
+  const isValidFile = ['image/png', 'image/jpeg', 'image/jpg'].includes(file.mimetype);
+  cb(null, isValidFile);
+}
+
+
 app.set("view engine", "ejs");
 app.set("views", "views");
 
-app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(routeDir, "public")));
+app.use('/uploads', express.static(path.join(routeDir, "uploads")));
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(multer({storage, fileFilter}).single('photo'));
 app.use(
   session({
     secret: "secret",

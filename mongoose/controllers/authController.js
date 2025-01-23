@@ -1,6 +1,7 @@
 const { check, validationResult } = require("express-validator");
 const bcrypt = require("bcryptjs");
 const User = require("../models/user");
+const { userName, email, userType, confirmPassword, password } = require("./validation");
 
 exports.getLogin = (req, res, next) => {
   if (req.session.isLoggedIn) {
@@ -38,34 +39,11 @@ exports.postLogin = async (req, res, next) => {
 };
 
 exports.postSignup = [
-  check("username").trim().notEmpty().withMessage("Please enter a username."),
-  check("email")
-    .isEmail()
-    .withMessage("Please enter a valid email address.")
-    .normalizeEmail(),
-  check("password")
-    .trim()
-    .isLength({ min: 5 })
-    .withMessage("Password must be at least 5 characters long.")
-    .matches(
-      /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@$!%*?&])[0-9a-zA-Z@$!%*?&]{8,}$/
-    )
-    .withMessage(
-      "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character."
-    ),
-  check("confirm_password")
-    .trim()
-    .custom((value, { req }) => {
-      if (value !== req.body.password) {
-        throw new Error("Confirm Password does not match Password");
-      }
-      return true;
-    }),
-  check("userType")
-    .trim()
-    .notEmpty()
-    .isIn(["user", "admin"])
-    .withMessage("Please select a user type."),
+  userName,
+  email,
+  password,
+  confirmPassword,
+  userType,
 
   async (req, res, next) => {
     const errors = validationResult(req);
@@ -88,6 +66,8 @@ exports.postSignup = [
         userType,
       });
       await user.save();
+
+      
     } catch (err) {
       return res.status(422).render("auth/signup", {
         title: "Login",

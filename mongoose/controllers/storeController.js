@@ -2,7 +2,6 @@ const Home = require("../models/home");
 const User = require("../models/user");
 
 exports.getIndex = (req, res, next) => {
-  console.log(req.session);
   Home.find().then((registeredHomes) => {
     res.render("store/index", {
       registeredHomes: registeredHomes,
@@ -73,7 +72,6 @@ exports.postDeleteFavouriteHomes = async (req, res, next) => {
 exports.getHomeDetails = (req, res, next) => {
   const hostID = req.params.id;
   Home.findById(hostID).then((homes) => {
-    console.log(homes);
     res.render("store/home-details", {
       title: "Home Details",
       home: homes,

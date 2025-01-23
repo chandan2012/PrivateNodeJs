@@ -90,27 +90,3 @@ exports.postDeleteHome = async (req, res, next) => {
   }
 };
 
-// exports.postDeleteHome = async (req, res, next) => {
-//   const homeId = req.params.id;
-
-//   try {
-//     // Delete the home
-//     const deletedHome = await Home.findByIdAndDelete(homeId);
-
-//     if (!deletedHome) {
-//       return res.status(404).send("Home not found");
-//     }
-
-//     // Remove the homeId from all users' favouriteHomes arrays
-//     const result = await User.updateMany(
-//       { favouriteHomes: homeId },
-//       { $pull: { favouriteHomes: homeId } }
-//     );
-
-//     console.log(`Updated users: ${JSON.stringify(result)}`);
-//     res.redirect("/host-homes");
-//   } catch (err) {
-//     console.error("Error deleting home or updating users:", err);
-//     res.status(500).send("Error processing request");
-//   }
-// };
