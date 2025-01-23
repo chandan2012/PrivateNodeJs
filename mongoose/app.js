@@ -1,3 +1,7 @@
+const ENV = process.env.NODE_ENV || 'production'
+require('dotenv').config({
+  path: `.env.${ENV}`
+});
 const express = require("express");
 const mongoose = require("mongoose");
 const session = require("express-session");
@@ -14,9 +18,8 @@ const { authRouter } = require("./routers/authRouter");
 const { hostRouter } = require("./routers/hostRouter");
 
 const app = express();
-const PORT = 3000;
-const MONGODB_URI =
-  "mongodb+srv://root:root@airbnb.no48h.mongodb.net/airbnb?retryWrites=true&w=majority";
+const MONGODB_URI =`mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@airbnb.no48h.mongodb.net/${process.env.MONGO_DEFAULT_DATABASE}`;
+
 
 const store = new MongoDBStore({
   uri: MONGODB_URI,
@@ -64,6 +67,9 @@ app.use("/host", (req, res, next) => {
 app.use(hostRouter);
 app.use(storeRouter);
 app.use(errorController.get404);
+
+
+const PORT = process.env.PORT  || 3000;
 
 mongoose
   .connect(MONGODB_URI)
